@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Movie Shelf — Log in</title>
+  <style>
+    :root {
+      /* ---------- Design tokens ---------- */
+      --W:1464; --H:949; --photoW:836; --paneW:628; --cardW:613; --cardH:922;
+      --badge-fs:13.60px; --badge-fw:400; --badge-ls:-0.163px; --badge-gap:10px; --badge-dy:0px; --badge-ws:0px;
+      --badge-left:34px; --badge-top:684px;
+      --hl-lh:1; --hl-wght:578;
+      --hl1-fs:69.14px; --hl1-ls:-1.936px; --hl1-ws:0px; --hl1-left:33.00px; --hl1-top:750.02px;
+      --hl2-fs:68.95px; --hl2-ls:-1.931px; --hl2-left:32.00px; --hl2-top:831.01px;
+      --h1-top:65.00px; --h1-fs:42.55px; --h1-ls:-2.553px; --h1-ws:1.300px; --h1-wght:584;
+      --sub-top:120.00px; --sub-fs:20.41px; --sub-ls:-0.245px; --sub-ws:-2.000px; --sub-fw:400; --sub-fwb:700;
+      --fieldpad:19px;
+      --eph-fs:15.68px; --eph-ls:-0.188px; --eph-left:17.0px; --eph-fw:400; --eph-ws:0px;
+      --pph-fs:17.29px; --pph-ls:-0.698px; --pph-left:18px; --pph-fw:400;
+      --login-fs:16.38px; --login-fw:400; --login-ls:0.200px; --login-gap:10px; --login-dy:0.00px; --login-padl:-12.00px;
+      --arrow-w:13.2px;
+      --div-top:477px; --or-fs:11.5px; --or-fw:700; --or-ls:0.8px; --or-dy:2.00px; --or-dx:0.00px;
+      --or-line-l:205px; --or-line-r:204px;
+      --g-gap:17px; --g-icon:18.5px;
+      --gt-fs:18.10px; --gt-fw:400; --gt-ls:-0.217px; --gt-ws:-1.000px; --gt-dy:1.00px;
+      --bt-top:611.00px; --bt-fs:16.37px; --bt-fw:400; --bt-ls:-0.196px; --bt-ws:-2.060px; --bt-fwb:700; --bt-uo:3px;
+      --card-shadow:1px 10px 14px rgba(10,14,20,0.14), 0 1px 3px rgba(10,14,20,0.05);
+      --cs:1;
+      /* ---------- Palette ---------- */
+      --ink:#000; --h1-color:#2c3343; --sub-grey:#797979;
+      --badge-bg:#2f2a27; --ph:#606060; --or:#5a5a5b;
+      --gtext:#232424; --bottom:#0a0a0a;
+      --btn1:#283139; --btn2:#293340;
+      --inputFill:#fafafa; --inputBorder:#acacae; --pwFill:#f9f9f9;
+      --gBorder:#c8c8ca; --divider:#b1b1b2; --page:#fefefe;
+    }
+    html,body{height:100%;margin:0;padding:0;overflow:hidden;background:var(--page);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;}
+    body{font-family:'FreeSans',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;}
+    @font-face{font-family:'FreeSans';font-weight:400;font-display:block;src:url('data:font/woff2;charset=utf-8;base64,{{FREE_SANS_400_BASE64}}') format('woff2');}
+    @font-face{font-family:'FreeSans';font-weight:700;font-display:block;src:url('data:font/woff2;charset=utf-8;base64,{{FREE_SANS_700_BASE64}}') format('woff2');}
+    @font-face{font-family:'Eloquia';font-weight:200 800;font-display:block;src:url('data:font/woff2;charset=utf-8;base64,{{ELOQUIA_VAR_BASE64}}') format('woff2-variations');}
+    .stage{position:fixed;inset:0;overflow:hidden;}
+    .photo{position:absolute;left:0;top:0;height:100%;width:57.1038%;overflow:hidden;}
+    .photo-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:100% 50%;display:block;-webkit-user-drag:none;}
+    .scrim{display:none;}
+    .hero{position:absolute;left:0;bottom:0;width:836px;height:949px;transform-origin:left bottom;pointer-events:none;}
+    .hero>*{pointer-events:auto;}
+    .badge{position:absolute;left:var(--badge-left);top:var(--badge-top);height:37px;display:inline-flex;align-items:center;padding:0 16px 0 19px;border-radius:999px;background:var(--badge-bg);backdrop-filter:blur(7px) saturate(120%);box-shadow:0 1px 2px rgba(0,0,0,.18),0 6px 18px rgba(0,0,0,.14);color:#fff;white-space:nowrap;font-size:var(--badge-fs);font-weight:var(--badge-fw);letter-spacing:var(--badge-ls);gap:var(--badge-gap);}
+    .badge svg{width:17px;height:16.27px;margin-top:-1px;fill:#fff;}
+    .hl{position:absolute;color:var(--ink);font-family:'Eloquia',sans-serif;line-height:var(--hl-lh);white-space:nowrap;}
+    #hl1{left:var(--hl1-left);top:var(--hl1-top);font-size:var(--hl1-fs);letter-spacing:var(--hl1-ls);font-variation-settings:'wght' var(--hl-wght);}
+    #hl2{left:var(--hl2-left);top:var(--hl2-top);font-size:var(--hl2-fs);letter-spacing:var(--hl2-ls);font-variation-settings:'wght' var(--hl-wght);}
+    .pane{position:absolute;left:57.1038%;right:0;top:0;bottom:0;overflow:auto;}
+    .card{position:absolute;left:1px;top:14px;width:613px;height:922px;border-radius:26px;overflow:hidden;background:rgba(254,254,254,.90);backdrop-filter:blur(28px) saturate(160%);border:1px solid rgba(0,0,0,.036);box-shadow:var(--card-shadow);}
+    .card-in{position:absolute;left:0;top:0;width:613px;height:922px;transform-origin:left top;}
+    .col{position:absolute;left:62px;width:488px;text-align:center;}
+    #h1{top:var(--h1-top);font-family:'Eloquia',sans-serif;font-size:var(--h1-fs);font-weight:var(--h1-wght);letter-spacing:var(--h1-ls);word-spacing:var(--h1-ws);color:var(--h1-color);}
+    #sub{top:var(--sub-top);font-size:var(--sub-fs);font-weight:var(--sub-fwb);letter-spacing:var(--sub-ls);word-spacing:var(--sub-ws);color:var(--sub-grey);}
+    .field{left:62px;width:489px;height:61px;display:flex;align-items:center;border-radius:12px;padding-left:var(--fieldpad);background:var(--inputFill);border:1.5px solid var(--inputBorder);box-sizing:border-box;}
+    #email{top:203px;}
+    #pw{top:273.5px;height:59px;background:var(--pwFill);border:0;}
+    .field input{width:100%;height:100%;border:none;background:transparent;font-size:16px;outline:none;}
+    #loginBtn{position:absolute;left:62px;top:366px;width:489px;height:65.5px;border-radius:999px;background:linear-gradient(180deg,var(--btn1) 0%,var(--btn2) 100%);color:#fff;display:flex;align-items:center;justify-content:center;gap:var(--login-gap);padding-left:var(--login-padl);padding-right:4px;box-shadow:0 8px 20px rgba(18,26,34,.16),0 2px 5px rgba(18,26,34,.10);border:none;cursor:pointer;transition:transform .18s cubic-bezier(.2,.7,.3,1),box-shadow .18s ease,filter .18s ease;}
+    #loginBtn:hover{filter:brightness(1.12);}
+    #loginBtn:active{transform:translateY(1px);}
+    #loginBtn span{font-size:var(--login-fs);font-weight:var(--login-fw);letter-spacing:var(--login-ls);}
+    #loginBtn svg{width:var(--arrow-w);height:auto;}
+    .divider{position:absolute;left:63px;top:var(--div-top);width:487px;display:flex;align-items:center;justify-content:center;}
+    .divider i{background:var(--divider);height:1.5px;flex:0 0 var(--or-line-l);}
+    .divider b{color:var(--or);font-size:var(--or-fs);font-weight:var(--or-fw);letter-spacing:var(--or-ls);margin:0 var(--or-dx);}
+    #gBtn{position:absolute;left:62px;top:535px;width:489px;height:59.5px;border:1.5px solid var(--gBorder);border-radius:999px;background:rgba(255,255,255,.92);box-shadow:0 1px 2px rgba(0,0,0,.03);display:flex;align-items:center;justify-content:center;gap:var(--g-gap);cursor:pointer;transition:background .18s ease,box-shadow .18s ease,transform .18s cubic-bezier(.2,.7,.3,1);}
+    #gBtn:hover{background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.07);}
+    #gBtn:active{transform:translateY(1px);}
+    #gBtn span{font-size:var(--gt-fs);font-weight:var(--gt-fw);letter-spacing:var(--gt-ls);color:var(--gtext);}
+    #bottom{position:absolute;left:62px;top:var(--bt-top);width:489px;text-align:center;font-size:var(--bt-fs);font-weight:var(--bt-fwb);color:var(--bottom);}
+    #bottom a{color:#000;font-weight:700;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px;}
+    :focus-visible{outline:2px solid #2b6cb0;outline-offset:2px;}
+    @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+    /* Refined login surface — the cinematic Falcon media above remains unchanged. */
+    :root{--accent:#d69a4a;--accent-soft:rgba(214,154,74,.14);--surface:#fff;--muted:#858589;--danger:#b34e4e;--success:#3d765f;}
+    .card{background:rgba(255,255,255,.94);box-shadow:0 24px 60px rgba(10,14,20,.16),0 2px 8px rgba(10,14,20,.06);}
+    .card-in{overflow:visible;}
+    .auth-kicker{position:absolute;left:62px;top:32px;width:489px;display:flex;align-items:center;gap:9px;color:#9b9b9f;font-size:10px;font-weight:700;letter-spacing:1.7px;text-align:left;}
+    .kicker-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);flex:0 0 auto;}
+    .kicker-line{height:1px;background:#e4e4e5;flex:1;margin-left:4px;}
+    .heading-mark{color:var(--accent);}
+    #h1{top:65px;font-size:35px;letter-spacing:-1.8px;}
+    #sub{top:116px;font-size:14.5px;letter-spacing:-.1px;font-weight:400;word-spacing:0;}
+    #sub b{color:#2d3340;font-weight:700;}
+    .login-panel{position:absolute;inset:0;}
+    .auth-form{position:absolute;inset:0;}
+    .field{position:absolute;left:62px;width:489px;height:72px;display:block;padding:0 48px 0 18px;border-radius:14px;background:#fbfbfc;border:1px solid #dedee2;box-sizing:border-box;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;}
+    #email{top:190px;}
+    #pw{top:276px;height:72px;background:#fbfbfc;border:1px solid #dedee2;}
+    .field:focus-within{background:#fff;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);}
+    .field label,.secondary-label{display:block;color:#77777d;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+    .field label{position:absolute;left:18px;top:12px;}
+    .field input{position:absolute;left:18px;right:18px;bottom:10px;width:calc(100% - 36px);height:30px;color:#242832;font-size:14.5px;line-height:30px;padding:0;border:0;outline:0;background:transparent;}
+    .field input::placeholder{color:#b4b4b8;}
+    .password-toggle{position:absolute;right:13px;bottom:12px;width:30px;height:30px;border:0;border-radius:9px;background:transparent;color:#77777d;display:grid;place-items:center;cursor:pointer;}
+    .password-toggle:hover{background:#f0f0f1;color:#252932;}
+    .password-toggle svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+    .auth-actions{position:absolute;left:62px;top:358px;width:489px;display:flex;align-items:center;justify-content:space-between;color:#77777d;font-size:11px;}
+    .remember{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;}
+    .remember input{width:15px;height:15px;margin:0;accent-color:#2e3843;}
+    .quiet-link,.secondary-back,.secondary-again{border:0;background:transparent;color:#3d4855;font-size:11px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:3px;}
+    .quiet-link:hover,.secondary-back:hover,.secondary-again:hover{color:var(--accent);}
+    .message{position:absolute;left:62px;top:385px;width:489px;min-height:18px;margin:0;color:var(--muted);font-size:11px;line-height:18px;text-align:left;}
+    .message[data-state="error"]{color:var(--danger);}
+    .message[data-state="success"]{color:var(--success);}
+    .message[data-state="info"]{color:#69727d;}
+    #loginBtn{left:62px;top:430px;width:489px;height:62px;background:linear-gradient(135deg,#27313a 0%,#202a38 100%);box-shadow:0 12px 24px rgba(28,39,52,.18),0 3px 7px rgba(28,39,52,.1);}
+    #loginBtn:hover{filter:brightness(1.1);box-shadow:0 15px 28px rgba(28,39,52,.22),0 3px 7px rgba(28,39,52,.1);}
+    #loginBtn:disabled,.secondary-primary:disabled{cursor:wait;filter:none;opacity:.66;}
+    #loginBtn span{font-size:13px;font-weight:700;letter-spacing:.1px;}
+    .divider{top:530px;left:62px;width:489px;}
+    .divider i{background:#dddddf;height:1px;flex-basis:205px;}
+    .divider b{color:#a0a0a4;font-size:10px;letter-spacing:1.2px;margin:0 13px;}
+    #gBtn{left:62px;top:572px;width:489px;height:58px;border-color:#dedee1;background:#fff;}
+    #gBtn svg{width:20px;height:20px;flex:0 0 auto;}
+    #gBtn span{font-size:13.5px;font-weight:600;letter-spacing:-.1px;}
+    #bottom{left:62px;top:660px;width:489px;color:#858589;font-size:11px;font-weight:400;letter-spacing:0;}
+    #bottom a{color:#2c3540;font-weight:700;text-decoration-thickness:1.5px;}
+    .bottom-separator{display:inline-block;margin:0 8px;color:#c0c0c3;}
+    .secondary-panel{position:absolute;left:62px;top:186px;width:489px;text-align:center;}
+    .secondary-mark{height:24px;display:flex;justify-content:center;align-items:flex-end;gap:4px;margin-bottom:12px;}
+    .secondary-mark span{display:block;width:5px;border-radius:4px;background:var(--accent);}
+    .secondary-mark span:nth-child(1){height:10px;opacity:.55;}.secondary-mark span:nth-child(2){height:20px;}.secondary-mark span:nth-child(3){height:14px;opacity:.75;}
+    .secondary-panel h2{margin:0;color:#2c3343;font-family:'Eloquia',sans-serif;font-size:23px;font-weight:580;letter-spacing:-.8px;}
+    .secondary-panel p:not(.message){margin:9px auto 22px;max-width:390px;color:#858589;font-size:12.5px;line-height:1.5;}
+    .secondary-label{text-align:left;margin:13px 0 6px 2px;}
+    .secondary-input{width:100%;height:52px;padding:0 16px;border:1px solid #dedee2;border-radius:13px;background:#fbfbfc;box-sizing:border-box;color:#242832;font-size:14px;outline:none;transition:border-color .18s ease,box-shadow .18s ease;}
+    .secondary-input:focus{background:#fff;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);}
+    .secondary-input::placeholder{color:#b4b4b8;}
+    .secondary-fields[hidden]{display:none;}
+    .secondary-message{position:relative;left:auto;top:auto;width:100%;min-height:18px;margin:13px 0 6px;text-align:center;}
+    .secondary-primary{width:100%;height:57px;border:0;border-radius:999px;color:#fff;background:linear-gradient(135deg,#27313a 0%,#202a38 100%);font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 10px 22px rgba(28,39,52,.16);}
+    .secondary-primary:hover{filter:brightness(1.1);}
+    .secondary-primary span{display:inline-block;margin-left:8px;color:var(--accent);font-size:19px;vertical-align:-1px;}
+    .secondary-again{margin-top:12px;font-size:11px;}
+    .secondary-back{display:block;margin:20px auto 0;text-decoration:none;color:#858589;}
+    [hidden]{display:none!important;}
+    /* Compact type scale (desktop/tablet). Mobile sizes are defined in the media query below. */
+    @media (min-width:700px){
+      :root{--hl1-fs:58px;--hl2-fs:58px;--hl1-ls:-1.6px;--hl2-ls:-1.6px;--badge-fs:12.5px;}
+      #h1{font-size:30px;letter-spacing:-1.5px;}
+      #sub{font-size:13px;top:112px;}
+      .auth-kicker{font-size:9px;}
+      .field label{font-size:9px;}
+      .field input{font-size:15px;}
+      .auth-actions,.quiet-link,.secondary-back,.secondary-again{font-size:11.5px;}
+      .message{font-size:11.5px;}
+      #loginBtn span{font-size:12.5px;}
+      #gBtn span{font-size:13px;}
+      #bottom{font-size:11.5px;line-height:1.9;}
+      .secondary-panel h2{font-size:21px;}
+      .secondary-panel p:not(.message){font-size:12px;}
+      .secondary-label{font-size:9px;}
+      .secondary-input{font-size:14px;height:48px;}
+      .secondary-primary{font-size:13px;height:54px;}
+    }
+    @media (max-width:899px) and (min-width:700px){
+      body.tabport{overflow:auto;}
+      body.tabport .stage{position:relative;min-height:100%;overflow:auto;}
+      body.tabport .photo{position:relative;width:100%;height:42vh;}
+      body.tabport .pane{position:relative;left:0;right:auto;min-height:640px;padding:16px;box-sizing:border-box;overflow:visible;}
+      body.tabport .card{position:relative;left:auto;top:auto;width:100%;height:640px;max-width:620px;margin:0 auto;}
+      body.tabport .card-in{width:100%;height:100%;transform:none!important;}
+      body.tabport .auth-kicker,.tabport #h1,.tabport #sub,.tabport .field,.tabport .auth-actions,.tabport .message,.tabport #loginBtn,.tabport .divider,.tabport #gBtn,.tabport #bottom,.tabport .secondary-panel{left:9%;width:82%;}
+      body.tabport .auth-kicker{top:28px;}
+      body.tabport #h1{top:58px;}
+      body.tabport #sub{top:112px;}
+      body.tabport .secondary-panel{top:150px;}
+    }
+    @media (max-width:699px){
+      html,body{overflow:auto;min-height:100%;}
+      body{background:#f7f7f8;}
+      .stage{position:relative;min-height:100%;overflow:visible;}
+      .photo{position:relative;width:100%;height:34svh;min-height:230px;max-height:360px;}
+      .hero{transform:scale(calc(100vw / 836));}
+      #hl1,#hl2{font-size:40px!important;letter-spacing:-1px;}
+      .pane{position:relative;left:0;right:auto;top:auto;min-height:720px;padding:14px 12px 24px;box-sizing:border-box;overflow:visible;}
+      .card{position:relative;left:auto;top:auto;width:100%;height:720px;border-radius:24px;margin:0;}
+      .card-in{position:relative;width:100%;height:100%;transform:none!important;}
+      .auth-kicker,.card-in #h1,.card-in #sub,.card-in .field,.card-in .auth-actions,.card-in .message,.card-in #loginBtn,.card-in .divider,.card-in #gBtn,.card-in #bottom,.card-in .secondary-panel{left:7%;width:86%;}
+      .auth-kicker{top:24px;font-size:9px;}
+      #h1{top:54px;font-size:30px;letter-spacing:-1.5px;}
+      #sub{top:104px;font-size:14px;line-height:1.35;}
+      #email{top:155px;}
+      #pw{top:238px;}
+      .auth-actions{top:322px;font-size:11px;}
+      .message{top:350px;font-size:11px;line-height:16px;}
+      #loginBtn{top:394px;height:58px;}
+      .divider{top:480px;}
+      .divider i{flex-basis:37%;}
+      #gBtn{top:520px;height:56px;}
+      #bottom{top:592px;line-height:1.8;}
+      .bottom-separator{margin:0 4px;}
+      .secondary-panel{top:146px;}
+      .secondary-panel h2{font-size:22px;}
+      .secondary-panel p:not(.message){font-size:13px;margin-bottom:16px;}
+      .secondary-primary{height:54px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <section class="photo">
+      <video class="photo-img photo-img--tall" autoplay muted loop playsinline preload="auto" poster="data:image/webp;base64,{{POSTER_TALL_BASE64}}">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260813_052122_e77a27e6-17f1-4794-889b-3ceaa0e9e8cb.mp4" type="video/mp4">
+      </video>
+      <video class="photo-img photo-img--wide" aria-hidden="true" autoplay muted loop playsinline preload="auto" poster="data:image/webp;base64,{{POSTER_WIDE_BASE64}}">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260813_052122_e77a27e6-17f1-4794-889b-3ceaa0e9e8cb.mp4" type="video/mp4">
+      </video>
+      <div class="scrim"></div>
+      <div class="hero" id="hero">
+        <div class="badge" id="badge"><svg viewBox="0 0 582 557" fill-rule="evenodd"><path d="M449.0 0.0 435.0 0.0 415.0 10.0 200.0 249.0 187.0 276.0 189.0 299.0 212.0 326.0 232.0 332.0 289.0 334.0 289.0 516.0 301.0 543.0 324.0 556.0 346.0 556.0 374.0 536.0 573.0 311.0 582.0 288.0 579.0 264.0 559.0 240.0 539.0 233.0 478.0 230.0 478.0 32.0 470.0 13.0ZM442.0 38.0 446.0 250.0 466.0 267.0 540.0 270.0 547.0 285.0 341.0 520.0 332.0 522.0 324.0 514.0 321.0 314.0 307.0 300.0 295.0 297.0 233.0 297.0 224.0 291.0 221.0 282.0ZM1.0 67.0 4.0 81.0 17.0 90.0 216.0 90.0 223.0 87.0 232.0 74.0 228.0 57.0 215.0 49.0 18.0 49.0 5.0 57.0ZM0.0 285.0 4.0 300.0 17.0 308.0 105.0 308.0 118.0 299.0 121.0 291.0 119.0 278.0 111.0 270.0 103.0 267.0 17.0 267.0 4.0 275.0ZM1.0 495.0 4.0 511.0 10.0 517.0 23.0 520.0 179.0 520.0 191.0 516.0 200.0 500.0 196.0 488.0 182.0 479.0 18.0 479.0 9.0 483.0Z"/></svg><span id="badgeTxt">Your next favorite starts here</span></div>
+        <div class="hl" id="hl1">Find Your Next Movie</div>
+        <div class="hl" id="hl2">Instantly</div>
+      </div>
+    </section>
+    <section class="pane">
+      <div class="card" id="card">
+        <div class="card-in" id="cardIn">
+          <div class="auth-kicker" aria-hidden="true"><span class="kicker-dot"></span><span>SECURE ACCESS</span><span class="kicker-line"></span></div>
+          <h1 class="col center" id="h1">Welcome back<span class="heading-mark">.</span></h1>
+          <p class="col center" id="sub"><b>Log in</b> to continue exploring your movie shelf.</p>
+
+          <div class="login-panel" id="loginPanel">
+            <form class="auth-form" id="loginForm" novalidate>
+              <div class="field" id="email">
+                <label for="emailInput">Email address</label>
+                <input id="emailInput" type="email" autocomplete="email" inputmode="email" aria-describedby="formMessage" placeholder="Eg. johndoe@gmail.com" required>
+              </div>
+              <div class="field" id="pw">
+                <label for="passwordInput">Password</label>
+                <input id="passwordInput" type="password" autocomplete="current-password" aria-describedby="formMessage" placeholder="Enter your password" required minlength="6">
+                <button class="password-toggle" id="passwordToggle" type="button" aria-label="Show password" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.7 12s3.4-5.2 9.3-5.2 9.3 5.2 9.3 5.2-3.4 5.2-9.3 5.2S2.7 12 2.7 12Z"></path><circle cx="12" cy="12" r="2.2"></circle></svg></button>
+              </div>
+              <div class="auth-actions">
+                <label class="remember"><input id="rememberInput" type="checkbox"><span>Keep me signed in</span></label>
+                <button class="quiet-link" id="forgotLink" type="button">Forgot password?</button>
+              </div>
+              <p class="message" id="formMessage" role="status" aria-live="polite"></p>
+              <button type="submit" id="loginBtn"><span>Continue to Movie Shelf</span>
+                <svg viewBox="0 0 22 22" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11h15.4M11 3.3l7.7 7.7-7.7 7.7"/></svg>
+              </button>
+            </form>
+            <div class="divider login-only"><i></i><b>OR</b><i></i></div>
+            <button type="button" id="gBtn"><svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.4 0 5.9 1.5 7.3 2.7l5.3-5.2C34.9 4.1 30.1 2 24 2 14.7 2 6.9 7.1 3.2 14.5l6.2 4.8C10.8 13.5 16.9 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24c0-1.5-.1-2.9-.4-4.3H24v8.2h12.7c-.6 3.2-2.3 5.9-4.9 7.7v6.4h7.9c4.6-4.2 7.3-10.4 7.3-17.9z"/><path fill="#FBBC05" d="M13.4 28.3c-.5-1.5-.8-3.1-.8-4.8s.3-3.3.8-4.8V12.3H6.3C4.5 15.9 3.5 20 3.5 24s1 8.1 2.8 11.7l7.1-5.4z"/><path fill="#34A853" d="M24 46c6.1 0 11.2-2 14.9-5.5l-7.9-6.4c-2.2 1.5-5 2.4-7.9 2.4-6.1 0-11.3-4.1-13.2-9.7l-7.1 5.4C6.9 40.9 14.7 46 24 46z"/><path fill="none" d="M0 0h48v48H0z"/></svg><span>Sign in with Google</span></button>
+            <p class="col" id="bottom">Don&#8217;t have an account? <a href="#" id="signupLink">Create account</a><span class="bottom-separator">&middot;</span><a href="#" id="resendLink">Resend verification</a><br><a href="#" id="emailLinkSignup">Sign up with just your email (no password)</a></p>
+          </div>
+
+          <section class="secondary-panel" id="secondaryPanel" hidden aria-live="polite">
+            <div class="secondary-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+            <h2 id="secondaryTitle">Verify your email</h2>
+            <p id="secondaryCopy">We&#8217;ll send a fresh verification link to this address.</p>
+            <div class="secondary-fields" id="signupFields" hidden>
+              <label class="secondary-label" for="signupName">Your name</label>
+              <input class="secondary-input" id="signupName" type="text" autocomplete="name" placeholder="How should we address you?">
+              <label class="secondary-label" for="signupPassword">Create a password</label>
+              <input class="secondary-input" id="signupPassword" type="password" autocomplete="new-password" placeholder="8+ characters, letters and numbers">
+            </div>
+            <div class="secondary-fields" id="resetFields" hidden>
+              <label class="secondary-label" for="resetPassword">New password</label>
+              <input class="secondary-input" id="resetPassword" type="password" autocomplete="new-password" placeholder="8+ characters, letters and numbers">
+              <label class="secondary-label" for="resetPasswordConfirm">Confirm new password</label>
+              <input class="secondary-input" id="resetPasswordConfirm" type="password" autocomplete="new-password" placeholder="Enter the password again">
+            </div>
+            <div id="secondaryEmailField">
+              <label class="secondary-label" for="secondaryEmail">Email address</label>
+              <input class="secondary-input" id="secondaryEmail" type="email" autocomplete="email" inputmode="email" placeholder="Eg. johndoe@gmail.com">
+            </div>
+            <p class="message secondary-message" id="secondaryMessage" role="status" aria-live="polite"></p>
+            <button class="secondary-primary" id="secondarySubmit" type="button">Send verification email <span aria-hidden="true">&rarr;</span></button>
+            <button class="secondary-again" id="secondaryAgain" type="button" hidden>Resend verification email</button>
+            <button class="secondary-back" id="secondaryBack" type="button">&larr; Back to login</button>
+          </section>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    (function(){
+      const defaults = {
+        loginPath: '/api/auth/login',
+        firebasePasswordLoginPath: '/api/auth/firebase/password-login',
+        signupPath: '/api/auth/signup',
+        verificationPath: '/api/auth/resend-verification',
+        forgotPasswordPath: '/api/auth/forgot',
+        resetPath: '/api/auth/reset',
+        googleLoginUrl: null,
+        postLoginUrl: '/welcome',
+        useResponseRedirect: false,
+        allowedRedirectOrigins: []
+      };
+      const config = Object.assign({}, defaults, window.__AUTH_CONFIG__ || {});
+      const $ = (id) => document.getElementById(id);
+      const loginPanel = $('loginPanel');
+      const secondaryPanel = $('secondaryPanel');
+      const signupFields = $('signupFields');
+      const resetFields = $('resetFields');
+      const secondaryEmailField = $('secondaryEmailField');
+      const loginForm = $('loginForm');
+      const emailInput = $('emailInput');
+      const passwordInput = $('passwordInput');
+      const rememberInput = $('rememberInput');
+      const passwordToggle = $('passwordToggle');
+      const formMessage = $('formMessage');
+      const secondaryMessage = $('secondaryMessage');
+      const h1 = $('h1');
+      const sub = $('sub');
+      const secondaryTitle = $('secondaryTitle');
+      const secondaryCopy = $('secondaryCopy');
+      const secondaryEmail = $('secondaryEmail');
+      const secondarySubmit = $('secondarySubmit');
+      const secondaryAgain = $('secondaryAgain');
+      const secondaryBack = $('secondaryBack');
+      const signupLink = $('signupLink');
+      const resendLink = $('resendLink');
+      const emailLinkSignup = $('emailLinkSignup');
+      const EMAIL_KEY = 'movieShelfEmailForSignIn';
+      const forgotLink = $('forgotLink');
+      const googleButton = $('gBtn');
+      const loginButton = $('loginBtn');
+      let mode = 'login';
+      let lastVerificationSent = false;
+      let resetToken = ''; 
+
+      function setMessage(element, text, state){
+        element.textContent = text || '';
+        if (state) element.dataset.state = state; else delete element.dataset.state;
+      }
+
+      function setBusy(button, busy, label){
+        if (!button) return;
+        button.disabled = busy;
+        button.setAttribute('aria-busy', String(busy));
+        if (button === loginButton){
+          const labelNode = button.querySelector('span');
+          if (busy){ button.dataset.previousLabel = labelNode.textContent; labelNode.textContent = label || 'Please wait…'; }
+          else if (button.dataset.previousLabel){ labelNode.textContent = button.dataset.previousLabel; delete button.dataset.previousLabel; }
+        } else if (button === secondarySubmit){
+          if (busy){ button.dataset.previousLabel = button.childNodes[0].nodeValue; button.childNodes[0].nodeValue = label || 'Please wait…'; }
+          else if (button.dataset.previousLabel){ button.childNodes[0].nodeValue = button.dataset.previousLabel; delete button.dataset.previousLabel; }
+        } else if (busy){
+          button.dataset.previousLabel = button.textContent;
+          button.textContent = label || 'Please wait…';
+        } else if (button.dataset.previousLabel){
+          button.textContent = button.dataset.previousLabel;
+          delete button.dataset.previousLabel;
+        }
+      }
+
+      function responseMessage(data, fallback){
+        if (data && typeof data === 'object') return data.message || data.error || fallback;
+        return typeof data === 'string' && data.trim() ? data : fallback;
+      }
+
+      async function request(pathKey, payload){
+        const endpoint = config[pathKey];
+        if (!endpoint) throw Object.assign(new Error('This action is not configured by the original authentication service.'), {code:'not_configured'});
+        let response;
+        try {
+          response = await fetch(endpoint, {
+            method:'POST',
+            credentials:'include',
+            headers:{'Content-Type':'application/json','Accept':'application/json'},
+            body:JSON.stringify(payload)
+          });
+        } catch (error) {
+          throw Object.assign(new Error('We could not reach the authentication service. Please try again.'), {code:'network', cause:error});
+        }
+        const raw = await response.text();
+        let data = null;
+        try { data = raw ? JSON.parse(raw) : null; } catch { data = raw; }
+        if (!response.ok) {
+          throw Object.assign(new Error(responseMessage(data, `The authentication service returned ${response.status}.`)), {code:'http', status:response.status, data});
+        }
+        return data || {};
+      }
+
+      function redirectTarget(data){
+        let target = config.postLoginUrl;
+        if (!target && config.useResponseRedirect && data && data.redirectUrl) target = data.redirectUrl;
+        if (!target) return null;
+        const url = new URL(target, window.location.href);
+        const allowed = [window.location.origin].concat(Array.isArray(config.allowedRedirectOrigins) ? config.allowedRedirectOrigins : []);
+        if (!allowed.includes(url.origin)) throw new Error('The configured post-login destination is not allowlisted.');
+        return url.href;
+      }
+
+      function completeLogin(data){
+        let target;
+        try { target = redirectTarget(data); } catch (error) {
+          setMessage(formMessage, error.message, 'error');
+          return;
+        }
+        if (target){
+          setMessage(formMessage, 'Signed in. Opening your movie shelf…', 'success');
+          window.setTimeout(() => window.location.assign(target), 160);
+        } else {
+          setMessage(formMessage, 'Signed in successfully. The original site did not provide a post-login destination.', 'success');
+        }
+      }
+
+      function validEmail(value){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
+      function passwordProblem(value){
+        if (value.length < 8) return 'Password must be at least 8 characters.';
+        if (!/[A-Za-z]/.test(value) || !/[0-9]/.test(value)) return 'Password must contain at least one letter and one number.';
+        return '';
+      }
+
+      function showLogin(message, state){
+        mode = 'login';
+        loginPanel.hidden = false;
+        secondaryPanel.hidden = true;
+        signupFields.hidden = true;
+        resetFields.hidden = true;
+        secondaryEmailField.hidden = false;
+        h1.innerHTML = 'Welcome back<span class="heading-mark">.</span>';
+        sub.innerHTML = '<b>Log in</b> to continue exploring your movie shelf.';
+        if (message !== undefined) setMessage(formMessage, message, state);
+        setMessage(secondaryMessage, '');
+        emailInput.focus({preventScroll:true});
+      }
+
+      function showSecondary(nextMode, email, message, state){
+        mode = nextMode;
+        loginPanel.hidden = true;
+        secondaryPanel.hidden = false;
+        signupFields.hidden = nextMode !== 'signup';
+        resetFields.hidden = nextMode !== 'reset';
+        secondaryEmailField.hidden = nextMode === 'reset';
+        secondaryEmail.value = email || emailInput.value.trim();
+        if (nextMode === 'signup'){
+          h1.innerHTML = 'Start your shelf<span class="heading-mark">.</span>';
+          sub.innerHTML = 'Create an account and keep your movie discoveries in one place.';
+          secondaryTitle.textContent = 'Create your account';
+          secondaryCopy.textContent = 'Firebase will send a verification link. You cannot sign in until you click it.';
+          secondarySubmit.childNodes[0].nodeValue = 'Create account ';
+        } else if (nextMode === 'emaillink') {
+          h1.innerHTML = 'Start your shelf<span class="heading-mark">.</span>';
+          sub.innerHTML = 'No password needed. We&#8217;ll email you a secure link.';
+          secondaryTitle.textContent = 'Sign up with your email';
+          secondaryCopy.textContent = 'Type your email and we will send a verification link. Click it and your Movie Shelf opens automatically.';
+          secondarySubmit.childNodes[0].nodeValue = 'Email me a link ';
+        } else if (nextMode === 'confirmlink') {
+          h1.innerHTML = 'Almost there<span class="heading-mark">.</span>';
+          sub.innerHTML = 'Confirm your email to open your shelf.';
+          secondaryTitle.textContent = 'Confirm your email';
+          secondaryCopy.textContent = 'You opened the link on a different browser or device. Type the same email address to finish.';
+          secondarySubmit.childNodes[0].nodeValue = 'Verify and open ';
+        } else if (nextMode === 'reset') {
+          h1.innerHTML = 'Choose a new password<span class="heading-mark">.</span>';
+          sub.innerHTML = 'Keep your Movie Shelf account secure.';
+          secondaryTitle.textContent = 'Reset your password';
+          secondaryCopy.textContent = 'Choose a new password for your account.';
+          secondarySubmit.childNodes[0].nodeValue = 'Save new password ';
+        } else {
+          h1.innerHTML = 'Check your inbox<span class="heading-mark">.</span>';
+          sub.innerHTML = 'One small step before your shelf is ready.';
+          secondaryTitle.textContent = 'Verify your email';
+          secondaryCopy.textContent = 'We’ll send a fresh verification link to this address.';
+          secondarySubmit.childNodes[0].nodeValue = 'Send verification email ';
+        }
+        secondaryAgain.hidden = true;
+        secondaryAgain.textContent = 'Resend verification email';
+        secondarySubmit.hidden = false;
+        setMessage(secondaryMessage, message || '', state);
+        const focusTarget = nextMode === 'reset' ? $('resetPassword') : secondaryEmail;
+        focusTarget.focus({preventScroll:true});
+      }
+
+      passwordToggle.addEventListener('click', () => {
+        const showing = passwordInput.type === 'text';
+        passwordInput.type = showing ? 'password' : 'text';
+        passwordToggle.setAttribute('aria-pressed', String(!showing));
+        passwordToggle.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+      });
+
+      loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        setMessage(formMessage, '');
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        if (!validEmail(email)){ setMessage(formMessage, 'Enter a valid email address to continue.', 'error'); emailInput.focus(); return; }
+        if (!password){ setMessage(formMessage, 'Please enter your password.', 'error'); passwordInput.focus(); return; }
+        setBusy(loginButton, true, 'Signing you in…');
+        try {
+          const data = await request('firebasePasswordLoginPath', {email, password, remember:rememberInput.checked});
+          completeLogin(data);
+        } catch (error) {
+          if (error.data?.code === 'EMAIL_NOT_VERIFIED') {
+            showSecondary('verify', email, error.message, 'info');
+            secondarySubmit.hidden = true;
+            secondaryAgain.hidden = true;
+            secondaryCopy.textContent = 'Click the verification link Firebase just sent, then return here and sign in.';
+          } else {
+            const remaining = error.data?.attemptsRemaining;
+            const notice = Number.isInteger(remaining) ? `${error.message} ${remaining} attempts remain.` : error.message;
+            setMessage(formMessage, error.code === 'not_configured' ? 'Firebase sign-in is not configured. Check the Firebase project settings.' : notice, 'error');
+          }
+        } finally { setBusy(loginButton, false); }
+      });
+
+      async function sendVerification(){
+        const email = secondaryEmail.value.trim();
+        if (!validEmail(email)){ setMessage(secondaryMessage, 'Enter a valid email address so we know where to send the link.', 'error'); secondaryEmail.focus(); return; }
+        setBusy(secondarySubmit, true, mode === 'signup' ? 'Creating your account…' : mode === 'reset' ? 'Saving…' : 'Sending verification email…');
+        setMessage(secondaryMessage, '');
+        try {
+          if (mode === 'reset'){
+            const password = $('resetPassword').value;
+            const confirmation = $('resetPasswordConfirm').value;
+            const problem = passwordProblem(password);
+            if (problem){ setMessage(secondaryMessage, problem, 'error'); $('resetPassword').focus(); return; }
+            if (password !== confirmation){ setMessage(secondaryMessage, 'The passwords do not match.', 'error'); $('resetPasswordConfirm').focus(); return; }
+            const data = await request('resetPath', {token:resetToken, password});
+            resetToken = '';
+            showLogin(data.message || 'Password updated. You can log in now.', 'success');
+            return;
+          }
+
+          const firebase = await window.MovieShelfFirebaseReady;
+          if (!firebase || !firebase.configured) throw new Error('Firebase is not configured. Check the VITE_FIREBASE_* values in .env.');
+          if (mode === 'emaillink'){
+            await firebase.sendEmailLink(email);
+            try { localStorage.setItem(EMAIL_KEY, email); } catch {}
+            secondaryAgain.hidden = false;
+            secondarySubmit.hidden = true;
+            secondaryAgain.textContent = 'Resend the link';
+            secondaryCopy.textContent = 'Open the email we just sent and click the link. Your Movie Shelf will open right after. Check spam if you do not see it.';
+            setMessage(secondaryMessage, 'Link sent to ' + email + '.', 'success');
+            return;
+          }
+          if (mode === 'confirmlink'){
+            await finishEmailLink(email);
+            return;
+          }
+          if (mode === 'signup'){
+            const name = $('signupName').value.trim();
+            const password = $('signupPassword').value;
+            if (name.length < 2){ setMessage(secondaryMessage, 'Enter your name (at least 2 characters).', 'error'); $('signupName').focus(); return; }
+            const problem = passwordProblem(password);
+            if (problem){ setMessage(secondaryMessage, problem, 'error'); $('signupPassword').focus(); return; }
+            const result = await firebase.createAccount(email, password, name);
+            mode = 'verify';
+            showSecondary('verify', email);
+            secondaryAgain.hidden = false;
+            secondarySubmit.hidden = true;
+            secondaryTitle.textContent = 'Verify your email';
+            secondaryCopy.textContent = 'Your Movie Shelf account will not be activated until you click Firebase’s verification link.';
+            setMessage(secondaryMessage, result.sent ? 'Firebase sent a verification link. Click it, then return here and sign in.' : 'Your Firebase account was created, but the verification email could not be sent. Use Resend verification email below.', result.sent ? 'success' : 'error');
+            return;
+          }
+          await firebase.resendVerification();
+          secondaryAgain.hidden = false;
+          secondarySubmit.hidden = true;
+          secondaryCopy.textContent = 'Click Firebase’s verification link, then return here and sign in.';
+          setMessage(secondaryMessage, 'Firebase sent a verification link. Check your inbox and spam folder.', 'success');
+        } catch (error) {
+          setMessage(secondaryMessage, error.message || 'Firebase could not complete that request. Please try again.', 'error');
+        } finally { setBusy(secondarySubmit, false); }
+      }
+
+      secondarySubmit.addEventListener('click', sendVerification);
+      secondaryAgain.addEventListener('click', () => { secondarySubmit.hidden = false; sendVerification(); });
+      secondaryBack.addEventListener('click', () => showLogin());
+      emailLinkSignup.addEventListener('click', (event) => { event.preventDefault(); showSecondary('emaillink', emailInput.value.trim()); });
+      async function finishEmailLink(email){
+        setMessage(secondaryMessage, 'Verifying your link…', 'info');
+        const firebase = await window.MovieShelfFirebaseReady;
+        await firebase.completeEmailLink(email);
+        try { localStorage.removeItem(EMAIL_KEY); } catch {}
+        setMessage(secondaryMessage, 'Verified. Opening your movie shelf…', 'success');
+        window.location.replace('/app');
+      }
+      signupLink.addEventListener('click', (event) => { event.preventDefault(); showSecondary('signup', emailInput.value.trim()); });
+      resendLink.addEventListener('click', (event) => { event.preventDefault(); showSecondary('verify', emailInput.value.trim()); });
+      forgotLink.addEventListener('click', async () => {
+        const email = emailInput.value.trim();
+        if (!validEmail(email)){ setMessage(formMessage, 'Enter your email first and we’ll send password-reset instructions.', 'error'); emailInput.focus(); return; }
+        setBusy(forgotLink, true, 'Sending…');
+        try {
+          const firebase = await window.MovieShelfFirebaseReady;
+          if (!firebase || !firebase.configured) throw new Error('Firebase is not configured. Check the VITE_FIREBASE_* values in .env.');
+          await firebase.sendPasswordReset(email);
+          setMessage(formMessage, 'If an account exists for this email, Firebase has sent password-reset instructions.', 'success');
+        } catch (error) {
+          setMessage(formMessage, error.message || 'Firebase could not send password-reset instructions. Please try again.', 'error');
+        } finally { setBusy(forgotLink, false); }
+      });
+      googleButton.addEventListener('click', async () => {
+        googleButton.disabled = true;
+        googleButton.setAttribute('aria-busy', 'true');
+        setMessage(formMessage, 'Connecting to Google…', 'info');
+        try {
+          const firebase = await window.MovieShelfFirebaseReady;
+          if (!firebase || !firebase.configured) throw new Error('Google sign-in is not configured. Check the Firebase values in .env.');
+          await firebase.signIn();
+          setMessage(formMessage, 'Signed in. Opening your movie shelf…', 'success');
+          window.location.assign('/app');
+        } catch (error) {
+          const message = error?.code === 'auth/unauthorized-domain'
+            ? 'Add this site (localhost for local development) to Firebase Authentication’s Authorized domains.'
+            : error?.code === 'auth/popup-closed-by-user'
+              ? 'Google sign-in was closed before it finished.'
+              : error.message || 'Google sign-in failed. Please try again.';
+          setMessage(formMessage, message, 'error');
+        } finally {
+          googleButton.disabled = false;
+          googleButton.removeAttribute('aria-busy');
+        }
+      });
+
+      const params = new URLSearchParams(window.location.search);
+      const verifyState = params.get('verify');
+      const reset = params.get('reset');
+      const firebaseVerify = params.get('firebaseVerify');
+      const firebaseReset = params.get('firebaseReset');
+      if (firebaseVerify){
+        history.replaceState(null, '', window.location.pathname);
+        showLogin('Email verified. Opening your Movie Shelf…', 'success');
+        // Same browser as the sign-up: finish automatically (the woven curtain then opens the shelf by itself).
+        window.MovieShelfFirebaseReady.then(async (firebase) => {
+          try {
+            const done = firebase && firebase.configured ? await firebase.completeVerification() : null;
+            if (done) { window.location.replace('/app'); return; }
+          } catch {}
+          showLogin('Firebase confirmed your email. Sign in to open your Movie Shelf.', 'success');
+        });
+      } else if (firebaseReset){
+        history.replaceState(null, '', window.location.pathname);
+        showLogin('Firebase completed the password reset. Sign in with your new password.', 'success');
+      } else if (reset){
+        resetToken = reset;
+        history.replaceState(null, '', window.location.pathname);
+        showSecondary('reset', '');
+      } else if (verifyState && verifyState !== '1'){
+        const message = verifyState === 'success' ? 'Email verified. You can now log in.' : verifyState === 'already' ? 'This email is already verified. You can log in.' : verifyState === 'expired' ? 'That verification link expired. Request a new verification email.' : 'That verification link is invalid or has already been used.';
+        const state = ['success','already'].includes(verifyState) ? 'success' : 'error';
+        history.replaceState(null, '', window.location.pathname);
+        showLogin(message, state);
+      } else if (verifyState === '1' || params.get('verification') === '1') showSecondary('verify', params.get('email') || '');
+      else if (params.get('signup') === '1') showSecondary('signup', params.get('email') || '');
+      window.MovieShelfFirebaseReady.then(async (firebase) => {
+        if (!firebase || !firebase.configured || !firebase.isEmailLink()) return;
+        let stored = '';
+        try { stored = localStorage.getItem(EMAIL_KEY) || ''; } catch {}
+        showSecondary('confirmlink', stored);
+        if (!stored){ secondarySubmit.hidden = false; return; }
+        secondarySubmit.hidden = true;
+        try { await finishEmailLink(stored); }
+        catch (error) {
+          secondarySubmit.hidden = false;
+          setMessage(secondaryMessage, error.code === 'auth/invalid-action-code' ? 'This link has expired or was already used. Go back and request a new one.' : (error.message || 'We could not verify that link. Type your email below and try again.'), 'error');
+        }
+      });
+      window.MovieShelfAuth = {showLogin, showVerification: () => showSecondary('verify', emailInput.value.trim())};
+    })();
+  </script>
+  <script type="module">
+    window.MovieShelfFirebaseReady = (async () => {
+      const [{ initializeApp }, { getAuth, GoogleAuthProvider, signInWithPopup, signOut, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink }] = await Promise.all([
+        import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'),
+        import('https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js')
+      ]);
+      const configResponse = await fetch('/api/config/firebase', { headers: { Accept: 'application/json' }, credentials: 'same-origin' });
+      const publicConfig = await configResponse.json();
+      if (!configResponse.ok || !publicConfig.configured || !publicConfig.firebaseConfig) return { configured: false };
+      const auth = getAuth(initializeApp(publicConfig.firebaseConfig));
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+      const actionSettings = (query) => ({ url: `${window.location.origin}/?${query}`, handleCodeInApp: false });
+      return {
+        configured: true,
+        async createAccount(email, password, name) {
+          const credential = await createUserWithEmailAndPassword(auth, email, password);
+          await updateProfile(credential.user, { displayName: name }).catch(() => {});
+          try {
+            await sendEmailVerification(credential.user, actionSettings('firebaseVerify=1'));
+            return { sent: true };
+          } catch (error) {
+            return { sent: false, error };
+          }
+        },
+        async resendVerification() {
+          if (!auth.currentUser) throw new Error('Sign in with your email and password. If it is unverified, Firebase will automatically send another verification link.');
+          await sendEmailVerification(auth.currentUser, actionSettings('firebaseVerify=1'));
+        },
+        async sendPasswordReset(email) {
+          await sendPasswordResetEmail(auth, email, actionSettings('firebaseReset=1'));
+        },
+        async completeVerification() {
+          await auth.authStateReady();
+          const user = auth.currentUser;
+          if (!user) return null;
+          await user.reload();
+          if (!user.emailVerified) return null;
+          await user.getIdToken(true);
+          return exchange({ user });
+        },
+        async sendEmailLink(email) {
+          await sendSignInLinkToEmail(auth, email, { url: `${window.location.origin}/?emailLink=1`, handleCodeInApp: true });
+        },
+        isEmailLink() { return isSignInWithEmailLink(auth, window.location.href); },
+        async completeEmailLink(email) {
+          const credential = await signInWithEmailLink(auth, email, window.location.href);
+          return exchange(credential);
+        },
+        async signIn() {
+          const credential = await signInWithPopup(auth, provider);
+          return exchange(credential);
+        }
+      };
+      async function exchange(credential) {
+          try {
+            const idToken = await credential.user.getIdToken();
+            const response = await fetch('/api/auth/firebase', {
+              method: 'POST',
+              credentials: 'include',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+              body: JSON.stringify({ idToken })
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(data.error || 'The server could not start your Movie Shelf session.');
+            return data;
+          } finally {
+            await signOut(auth).catch(() => {});
+          }
+      }
+    })().catch((error) => ({ configured: false, error }));
+  </script>
+  <script>
+    document.documentElement.classList.add('entry-pending');
+    window.__entryFallback = setTimeout(()=>{document.documentElement.classList.remove('entry-pending');},3500);
+    (function(){
+      const REF_W=1464, REF_H=949, PHOTO_W=836, PANE_W=628, CARD_W=613, CARD_H=922;
+      const mqLand=window.matchMedia('(min-width:700px) and (min-aspect-ratio:51/50)');
+      const mqPort=window.matchMedia('(min-width:700px) and (max-aspect-ratio:51/50)');
+      const photo=document.querySelector('.photo');
+      const hero=document.getElementById('hero');
+      const card=document.getElementById('card');
+      const cardIn=document.getElementById('cardIn');
+      function clearInline(){[photo,hero,card,cardIn].forEach(el=>el.style.cssText='');}
+      function layout(){
+        clearInline();
+        const vw=window.innerWidth, vh=window.innerHeight;
+        if(mqLand.matches){
+          const paneW=vw-PHOTO_W;
+          // Keep the complete auth surface comfortably inside smaller laptop and preview viewports.
+          const cs=Math.min(paneW/PANE_W, (vh-27)/710) * 0.88;
+          const gapL=cs*1, mT=cs*14, mB=cs*13, mR=cs*14;
+          const cw=Math.max(CARD_W*cs, paneW-gapL-mR);
+          card.style.width=cw+'px';
+          card.style.height=(vh-mT-mB)+'px';
+          card.style.left=gapL+'px';
+          card.style.top=mT+'px';
+          cardIn.style.transform='scale('+cs+') translate('+((cw-CARD_W*cs)/2)+'px,0)';
+          hero.style.transform='scale('+ (PHOTO_W/836) +')';
+        } else if(mqPort.matches){
+          document.body.classList.add('tabport');
+          const band=Math.round(vh*0.425);
+          photo.style.height=band+'px';
+          photo.style.width='100%';
+        } else {
+          document.body.classList.add('stacked');
+          const mobileHero='calc(34svh)';
+          photo.style.height=mobileHero;photo.style.width='100%';
+        }
+      }
+      layout();
+      window.addEventListener('resize',layout);
+      mqLand.addListener(layout);
+      mqPort.addListener(layout);
+    })();
+    (function(){
+      const reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      if(reduced||!Element.prototype.animate){
+        document.documentElement.classList.remove('entry-pending');
+        clearTimeout(window.__entryFallback);
+        return;
+      }
+      const timeline=[
+        {el:document.querySelector('.card'),delay:40,dur:820,from:{opacity:0,transform:'translateY(12px) scale(.988)'},to:{opacity:1,transform:'none'}},
+        {el:document.querySelector('.badge'),delay:120,dur:480,from:{opacity:0,transform:'translateY(8px)'},to:{opacity:1,transform:'none'}},
+        {el:document.getElementById('hl1'),delay:240,dur:760,from:{opacity:0,transform:'translateY(16px)',clipPath:'inset(100% 0 0 0)'},to:{opacity:1,transform:'none',clipPath:'inset(0 0 0 0)'}},
+        {el:document.getElementById('hl2'),delay:330,dur:760,from:{opacity:0,transform:'translateY(16px)',clipPath:'inset(100% 0 0 0)'},to:{opacity:1,transform:'none',clipPath:'inset(0 0 0 0)'}},
+        {el:document.getElementById('h1'),delay:470,dur:620,from:{opacity:0,transform:'translateY(10px)'},to:{opacity:1,transform:'none'}},
+        {el:document.getElementById('sub'),delay:570,dur:560,from:{opacity:0,transform:'translateY(10px)'},to:{opacity:1,transform:'none'}},
+        {el:document.getElementById('email'),delay:720,dur:520,from:{opacity:0,transform:'translateY(8px)'},to:{opacity:1,transform:'none'}},
+        {el:document.getElementById('pw'),delay:790,dur:520,from:{opacity:0,transform:'translateY(8px)'},to:{opacity:1,transform:'none'}},
+        {el:document.getElementById('loginBtn'),delay:930,dur:560,from:{opacity:0,transform:'translateY(8px)'},to:{opacity:1,transform:'none'}},
+        {el:document.querySelector('.divider'),delay:1060,dur:440,from:{opacity:0,transform:'translateY(6px)'},to:{opacity:1,transform:'none'}},
+        {el:document.getElementById('gBtn'),delay:1150,dur:540,from:{opacity:0,transform:'translateY(8px)'},to:{opacity:1,transform:'none'}},
+        {el:document.getElementById('bottom'),delay:1260,dur:500,from:{opacity:0,transform:'translateY(6px)'},to:{opacity:1,transform:'none'}},
+      ];
+      const easing='cubic-bezier(.16,1,.3,1)';
+      Promise.allSettled(timeline.map(s=>{
+        const a=s.el.animate([
+          {opacity:s.from.opacity,transform:s.from.transform,clipPath:s.from.clipPath||'none'},
+          {opacity:s.to.opacity,transform:s.to.transform,clipPath:s.to.clipPath||'none'}
+        ],{delay:s.delay,duration:s.dur,easing:easing,fill:'both'});
+        return a.finished;
+      })).then(()=>{document.documentElement.classList.remove('entry-pending');clearTimeout(window.__entryFallback);});
+    })();
+  </script>
+</body>
+</html>

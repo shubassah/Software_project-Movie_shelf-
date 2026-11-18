@@ -1,0 +1,27 @@
+{
+  "name": "movie-shelf-stack",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:welcome": "vite build --config frontend/welcome/vite.config.js",
+    "predev": "npm run build:welcome",
+    "start": "node server/index.js",
+    "dev": "node --watch --env-file=.env server/index.js"
+  },
+  "dependencies": {
+    "@designcodeio/threeui": "1.2.0",
+    "@fontsource/inter": "^5.3.0",
+    "express": "^5.1.0",
+    "jose": "^5.10.0",
+    "nodemailer": "^10.2.1",
+    "pg": "^8.16.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "three": "0.150.1"
+  },
+  "devDependencies": {
+    "@fontsource/open-sans": "^5.3.0",
+    "pg-mem": "^3.0.14",
+    "vite": "6.3.5"
+  }
+}
