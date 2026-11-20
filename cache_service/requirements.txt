@@ -4,3 +4,4 @@ httpx==0.28.1
 psycopg[binary]==3.2.13
 sqlalchemy[asyncio]>=2.0.43,<2.1
 pydantic-settings==2.7.1
+langdetect==1.0.9

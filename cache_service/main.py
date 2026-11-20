@@ -16,6 +16,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 from . import cache
 from .analysis import analyze
 from .clients import collect_review_comments, poster_url, tmdb, trailer_from_tmdb, youtube_trailer_search
+from .comment_filter import filter_comments
 from .config import settings
 from .db import Base, MovieRecord, YoutubeComment, make_engine, make_session_factory
 
@@ -159,8 +160,15 @@ async def load_analysis(session: AsyncSession | None, movie: dict[str, Any]) -> 
 
     async def fetch() -> dict[str, Any]:
         comments, errors = await collect_review_comments(movie.get("title") or "", movie.get("release_date"), tmdb_id)
+        comments = filter_comments(comments, movie)  # drop short, non-English, off-topic comments and emojis
         await persist_comments(session, tmdb_id, comments)
-        analysis = analyze(comments, errors)
+        try:
+            analysis = await asyncio.to_thread(analyze, comments, errors)
+        except HTTPException:
+            raise
+        except Exception as exc:  # show the real cause instead of a bare 500
+            log.exception("Sentiment analysis failed")
+            raise HTTPException(status_code=503, detail=f"{type(exc).__name__}: {exc}")
         await persist_movie(session, movie, analysis)
         return analysis
 
